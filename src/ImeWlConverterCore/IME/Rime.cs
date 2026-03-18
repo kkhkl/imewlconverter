@@ -58,7 +58,11 @@ public class Rime : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport, 
     //private IWordCodeGenerater pyGenerater=new PinyinGenerater();
     public override WordLibraryList ImportLine(string line)
     {
+        var wll = new WordLibraryList();
         var lineArray = line.Split('\t');
+        if (lineArray.Length < 2) {
+            return wll; // 无效行，返回空列表
+        }
 
         var word = lineArray[0];
         var code = lineArray[1];
@@ -71,7 +75,6 @@ public class Rime : BaseTextImport, IWordLibraryTextImport, IWordLibraryExport, 
             //wl.PinYin = CollectionHelper.ToArray(pyGenerater.GetCodeOfString(wl.Word));
             wl.SetCode(CodeType, code);
 
-        var wll = new WordLibraryList();
         wll.Add(wl);
         return wll;
     }
